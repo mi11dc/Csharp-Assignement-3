@@ -1,0 +1,56 @@
+﻿@model HTTP5101_Cumulative_Project.Models.Teacher
+
+@{
+    ViewBag.Title = "TeacherDetails";
+}
+
+<h2>Teacher Details</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Teacher Id
+        </dt>
+        <dd>
+            @Model.TeacherId
+        </dd>
+
+        <dt>
+            Teacher First Name
+        </dt>
+        <dd>
+            @Model.TeacherFName
+        </dd>
+
+        <dt>
+            Teacher Last Name
+        </dt>
+        <dd>
+            @Model.TeacherLName
+        </dd>
+
+        <dt>
+            Employee Number
+        </dt>
+        <dd>
+            @Model.TeacherFName
+        </dd>
+
+        <dt>
+            Hire Date
+        </dt>
+        <dd>
+            @Model.HireDate.ToShortDateString()
+        </dd>
+
+        <dt>
+            Salary
+        </dt>
+        <dd>
+            @Model.Salary
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+</p>

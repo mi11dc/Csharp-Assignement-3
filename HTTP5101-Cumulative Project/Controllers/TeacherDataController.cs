@@ -18,7 +18,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
         {
             MySqlConnection Conn = SchoolDb.AccessDatabase1();
             MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
-            string command = "Select * from teachers";
+            string command = "SELECT * FROM teachers";
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
             //Create an empty list of Author Names
@@ -43,6 +43,38 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             //Return the final list of author names
             return Teachers;
+        }
+
+        [HttpGet]
+        public Teacher TeacherDetails(int id)
+        {
+            MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
+            string command = "SELECT * FROM teachers where teacherid = " + id;
+            MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
+
+            //Create an empty list of Author Names
+            Teacher TeacherObj = new Teacher();
+
+            //Loop Through Each Row the Result Set
+            while (ResultSet.Read())
+            {
+                TeacherObj = new Teacher()
+                {
+                    TeacherId = Int32.Parse(ResultSet["teacherid"].ToString()),
+                    TeacherFName = ResultSet["teacherfname"].ToString(),
+                    TeacherLName = ResultSet["teacherlname"].ToString(),
+                    EmployeeNumber = ResultSet["employeenumber"].ToString(),
+                    HireDate = DateTime.Parse(ResultSet["hiredate"].ToString()),
+                    Salary = Decimal.Parse(ResultSet["salary"].ToString()),
+                };
+            }
+
+            //Close the connection between the MySQL Database and the WebServer
+            SchoolDb.ClossConnection(Conn);
+
+            //Return the final list of author names
+            return TeacherObj;
         }
     }
 }

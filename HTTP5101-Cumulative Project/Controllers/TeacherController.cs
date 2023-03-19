@@ -10,11 +10,21 @@ namespace HTTP5101_Cumulative_Project.Controllers
 {
     public class TeacherController : Controller
     {
+        private TeacherDataController Controller = new TeacherDataController();
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            IEnumerable<Teacher> TeachersList = Controller.ListTeachers();
+            ViewBag.Title = "Teacher List Page";
 
-            return View();
+            return View(TeachersList);
+        }
+
+        public ActionResult Details(int id)
+        {
+            Teacher TeacherDetails = Controller.TeacherDetails(id);
+            ViewBag.Title = "Teacher Details Page";
+            
+            return View(TeacherDetails);
         }
     }
 }

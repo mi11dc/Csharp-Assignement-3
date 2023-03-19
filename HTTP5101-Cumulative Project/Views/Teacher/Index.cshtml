@@ -1,5 +1,41 @@
-﻿@{
+﻿@model IEnumerable<HTTP5101_Cumulative_Project.Models.Teacher>
+@{
     ViewBag.Title = "Index";
 }
 
-<h2>Index Page</h2>
+<h2>Teachers List Page</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Employee Number</th>
+            <th>Teacher First Name</th>
+            <th>Teacher Last Name</th>
+            <th>Hire date</th>
+            <th>Salary</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.EmployeeNumber</td>
+                <td>@item.TeacherFName</td>
+                <td>@item.TeacherLName</td>
+                <td>@item.HireDate.ToShortDateString()</td>
+                <td>@item.Salary</td>
+                <td>
+                    @Html.ActionLink("View", "Details", new { id = @item.TeacherId }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    thead, tbody, tfoot, tr, td, th {
+        border-width: 1px;
+        padding: 0.25em;
+    }
+</style>
