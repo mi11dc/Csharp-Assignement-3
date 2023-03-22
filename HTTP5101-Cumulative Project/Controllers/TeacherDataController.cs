@@ -13,12 +13,27 @@ namespace HTTP5101_Cumulative_Project.Controllers
         // The database context class which allows us to access our MySQL Database.
         private SchoolDbContext SchoolDb = new SchoolDbContext();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="SearchString"></param>
+        /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Teacher> ListTeachers()
+        public IEnumerable<Teacher> ListTeachers(string SearchString)
         {
             MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            string command = @"SELECT * FROM teachers
+                WHERE LCASE(teacherfname) LIKE @search
+                OR LCASE(teacherlname) LIKE @search
+                OR Date_Format(hiredate,'%d-%b-%Y') LIKE @search
+                OR salary LIKE @search
+                OR LCASE(employeenumber) LIKE @search";
+            SearchString = String.IsNullOrEmpty(SearchString) ? String.Empty : SearchString.ToLower();
+
             MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
-            string command = "SELECT * FROM teachers";
+            cmd.Parameters.AddWithValue("@search", String.Concat("%", SearchString, "%"));
+            cmd.Prepare();
+
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
             //Create an empty list of Author Names
@@ -34,7 +49,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
                     TeacherLName = ResultSet["teacherlname"].ToString(),
                     EmployeeNumber = ResultSet["employeenumber"].ToString(),
                     HireDate = DateTime.Parse(ResultSet["hiredate"].ToString()),
-                    Salary = Decimal.Parse(ResultSet["salary"].ToString()),
+                    Salary = Decimal.Parse(ResultSet["salary"].ToString())
                 });
             }
 
@@ -49,8 +64,24 @@ namespace HTTP5101_Cumulative_Project.Controllers
         public Teacher TeacherDetails(int id)
         {
             MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            //string command = "SELECT * FROM teachers where teacherid = @id";
+            string command = @"SELECT 
+                                t.teacherid, 
+                                t.teacherfname, 
+                                t.teacherlname, 
+                                t.employeenumber, 
+                                t.hiredate,
+                                t.salary,
+                                group_concat(' ', c.classname) as `courses` 
+                            FROM teachers t
+                            JOIN classes c ON c.teacherid = t.teacherid
+                            WHERE t.teacherid = @id
+                            GROUP BY teacherid";
+
             MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
-            string command = "SELECT * FROM teachers where teacherid = " + id;
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
             //Create an empty list of Author Names
@@ -67,6 +98,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
                     EmployeeNumber = ResultSet["employeenumber"].ToString(),
                     HireDate = DateTime.Parse(ResultSet["hiredate"].ToString()),
                     Salary = Decimal.Parse(ResultSet["salary"].ToString()),
+                    Courses = String.IsNullOrEmpty(ResultSet["courses"].ToString()) ? "No Courses" : ResultSet["courses"].ToString()
                 };
             }
 

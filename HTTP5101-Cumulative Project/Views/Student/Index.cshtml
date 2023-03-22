@@ -1,15 +1,15 @@
-﻿@model IEnumerable<HTTP5101_Cumulative_Project.Models.Teacher>
+﻿@model IEnumerable<HTTP5101_Cumulative_Project.Models.Student>
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Teachers List Page</h2>
+<h2>Students List Page</h2>
 
 <div class="row">
     <div class="col-12">
-        <form asp-controller="Teacher" asp-action="Index">
+        <form asp-controller="Student" asp-action="Index">
             <p>
-                Search: <input type="text" name="Search" value="@ViewData["Search"]"/>
+                Search: <input type="text" name="Search" value="@ViewData["Search"]" />
                 <input type="submit" value="Search" />
             </p>
         </form>
@@ -22,11 +22,10 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Employee Number</th>
-                    <th>Teacher First Name</th>
-                    <th>Teacher Last Name</th>
-                    <th>Hire date</th>
-                    <th>Salary</th>
+                    <th>Student Number</th>
+                    <th>Student First Name</th>
+                    <th>Student Last Name</th>
+                    <th>Enrol date</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -36,13 +35,12 @@
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@item.EmployeeNumber</td>
-                        <td>@item.TeacherFName</td>
-                        <td>@item.TeacherLName</td>
-                        <td>@item.HireDate.ToShortDateString()</td>
-                        <td>@item.Salary</td>
+                        <td>@item.StudentNumber</td>
+                        <td>@item.StudentFName</td>
+                        <td>@item.StudentLName</td>
+                        <td>@item.EnrolDate.ToShortDateString()</td>
                         <td>
-                            @Html.ActionLink("View", "Details", new { id = @item.TeacherId }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("View", "Details", new { id = @item.StudentId }, new { @class = "btn btn-primary" })
                         </td>
                     </tr>
 
@@ -57,6 +55,7 @@
     table {
         width: 100%;
     }
+
     thead, tbody, tfoot, tr, td, th {
         border-width: 1px;
         padding: 0.25em;

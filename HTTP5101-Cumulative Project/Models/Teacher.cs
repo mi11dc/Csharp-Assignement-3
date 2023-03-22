@@ -13,5 +13,6 @@ namespace HTTP5101_Cumulative_Project.Models
         public string EmployeeNumber { get; set; }
         public DateTime HireDate { get; set; }
         public decimal Salary { get; set; }
+        public string Courses { get; set; }
     }
 }

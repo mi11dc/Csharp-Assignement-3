@@ -11,10 +11,11 @@ namespace HTTP5101_Cumulative_Project.Controllers
     public class TeacherController : Controller
     {
         private TeacherDataController Controller = new TeacherDataController();
-        public ActionResult Index()
+        public ActionResult Index(string Search)
         {
-            IEnumerable<Teacher> TeachersList = Controller.ListTeachers();
+            IEnumerable<Teacher> TeachersList = Controller.ListTeachers(Search);
             ViewBag.Title = "Teacher List Page";
+            ViewData["Search"] = Search;
 
             return View(TeachersList);
         }

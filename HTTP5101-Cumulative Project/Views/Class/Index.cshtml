@@ -1,15 +1,15 @@
-﻿@model IEnumerable<HTTP5101_Cumulative_Project.Models.Teacher>
+﻿@model IEnumerable<HTTP5101_Cumulative_Project.Models.Class>
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Teachers List Page</h2>
+<h2>Classes List Page</h2>
 
 <div class="row">
     <div class="col-12">
-        <form asp-controller="Teacher" asp-action="Index">
+        <form asp-controller="Class" asp-action="Index">
             <p>
-                Search: <input type="text" name="Search" value="@ViewData["Search"]"/>
+                Search: <input type="text" name="Search" value="@ViewData["Search"]" />
                 <input type="submit" value="Search" />
             </p>
         </form>
@@ -22,27 +22,25 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Employee Number</th>
-                    <th>Teacher First Name</th>
-                    <th>Teacher Last Name</th>
-                    <th>Hire date</th>
-                    <th>Salary</th>
+                    <th>Class Code</th>
+                    <th>Class Name</th>
+                    <th>Start Date</th>
+                    <th>End date</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @{int i = 1;}
+                @{ int i = 1;}
                 @foreach (var item in Model)
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@item.EmployeeNumber</td>
-                        <td>@item.TeacherFName</td>
-                        <td>@item.TeacherLName</td>
-                        <td>@item.HireDate.ToShortDateString()</td>
-                        <td>@item.Salary</td>
+                        <td>@item.ClassCode</td>
+                        <td>@item.ClassName</td>
+                        <td>@item.StartDate.ToShortDateString()</td>
+                        <td>@item.EndDate.ToShortDateString()</td>
                         <td>
-                            @Html.ActionLink("View", "Details", new { id = @item.TeacherId }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("View", "Details", new { id = @item.ClassId }, new { @class = "btn btn-primary" })
                         </td>
                     </tr>
 
@@ -57,6 +55,7 @@
     table {
         width: 100%;
     }
+
     thead, tbody, tfoot, tr, td, th {
         border-width: 1px;
         padding: 0.25em;

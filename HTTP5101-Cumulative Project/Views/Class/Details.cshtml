@@ -1,0 +1,57 @@
+﻿@model HTTP5101_Cumulative_Project.Models.Class
+@{
+    ViewBag.Title = "ClassDetails";
+}
+
+<h2>Class Details</h2>
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            Class Id
+        </dt>
+        <dd>
+            @Model.ClassId
+        </dd>
+
+        <dt>
+            Class Name
+        </dt>
+        <dd>
+            @Model.ClassName
+        </dd>
+
+        <dt>
+            Class Code
+        </dt>
+        <dd>
+            @Model.ClassCode
+        </dd>
+
+        <dt>
+            Start Date
+        </dt>
+        <dd>
+            @Model.StartDate.ToShortDateString()
+        </dd>
+
+        <dt>
+            Enrol Date
+        </dt>
+        <dd>
+            @Model.EndDate.ToShortDateString()
+        </dd>
+
+        <dt>
+            Teacher
+        </dt>
+        <dd>
+            @Model.TeacherName
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+</p>
+
