@@ -16,7 +16,7 @@ namespace HTTP5101_Cumulative_Project
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Teacher", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
