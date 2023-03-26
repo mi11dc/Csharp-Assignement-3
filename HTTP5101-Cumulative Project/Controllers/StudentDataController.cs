@@ -13,6 +13,11 @@ namespace HTTP5101_Cumulative_Project.Controllers
         // The database context class which allows us to access our MySQL Database.
         private SchoolDbContext SchoolDb = new SchoolDbContext();
 
+        /// <summary>
+        /// Get list of Students
+        /// </summary>
+        /// <param name="SearchString">This parameter is using for searching in students's first and last name, enrol date and student number</param>
+        /// <returns>List of Students</returns>
         [HttpGet]
         public IEnumerable<Student> ListStudents(string SearchString)
         {
@@ -30,10 +35,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
-            //Create an empty list of Author Names
             List<Student> Students = new List<Student> { };
 
-            //Loop Through Each Row the Result Set
             while (ResultSet.Read())
             {
                 Students.Add(new Student()
@@ -46,13 +49,16 @@ namespace HTTP5101_Cumulative_Project.Controllers
                 });
             }
 
-            //Close the connection between the MySQL Database and the WebServer
             SchoolDb.ClossConnection(Conn);
 
-            //Return the final list of author names
             return Students;
         }
 
+        /// <summary>
+        /// Gets student's info from student id.
+        /// </summary>
+        /// <param name="id">Student id</param>
+        /// <returns>Selected student's info</returns>
         [HttpGet]
         public Student StudentDetails(int id)
         {
@@ -65,10 +71,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
-            //Create an empty list of Author Names
             Student StudentObj = new Student();
 
-            //Loop Through Each Row the Result Set
             while (ResultSet.Read())
             {
                 StudentObj = new Student()
@@ -81,10 +85,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
                 };
             }
 
-            //Close the connection between the MySQL Database and the WebServer
             SchoolDb.ClossConnection(Conn);
 
-            //Return the final list of author names
             return StudentObj;
         }
     }

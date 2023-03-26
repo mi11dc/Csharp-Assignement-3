@@ -9,8 +9,8 @@ namespace HTTP5101_Cumulative_Project.Models
     public class SchoolDbContext
     {
         //These are readonly "secret" properties. 
-        //Only the BlogDbContext class can use them.
-        //Change these to match your own local blog database!
+        //Only the SchoolDbContext class can use them.
+        //Change these to match your own local school database!
         private static string User { get { return "root"; } }
         private static string Password { get { return "root"; } }
         private static string Database { get { return "schooldb"; } }
@@ -35,11 +35,11 @@ namespace HTTP5101_Cumulative_Project.Models
         }
         //This is the method we actually use to get the database!
         /// <summary>
-        /// Returns a connection to the blog database.
+        /// Returns a connection to the school database.
         /// </summary>
         /// <example>
-        /// private BlogDbContext Blog = new BlogDbContext();
-        /// MySqlConnection Conn = Blog.AccessDatabase();
+        /// private SchoolDbContext School = new SchoolDbContext();
+        /// MySqlConnection Conn = School.AccessDatabase();
         /// </example>
         /// <returns>A MySqlConnection Object</returns>
         public MySqlConnection AccessDatabase()
@@ -50,6 +50,10 @@ namespace HTTP5101_Cumulative_Project.Models
             return new MySqlConnection(ConnectionString);
         }
 
+        /// <summary>
+        /// Returns a open connection 
+        /// </summary>
+        /// <returns>A MySqlConnection Object</returns>
         public MySqlConnection AccessDatabase1()
         {
             MySqlConnection Conn = new MySqlConnection(ConnectionString);
@@ -58,6 +62,11 @@ namespace HTTP5101_Cumulative_Project.Models
             return Conn;
         }
 
+        /// <summary>
+        /// Returns created MySql Command 
+        /// </summary>
+        /// <param name="Conn">A MySqlConnection Object</param>
+        /// <returns>A MySqlCommand Object</returns>
         public MySqlCommand CreateCommand(MySqlConnection Conn)
         {
             MySqlCommand cmd = Conn.CreateCommand();
@@ -65,6 +74,12 @@ namespace HTTP5101_Cumulative_Project.Models
             return cmd;
         }
 
+        /// <summary>
+        /// Returns MySql Data Reader object
+        /// </summary>
+        /// <param name="cmd">A MySqlCommand Object</param>
+        /// <param name="CommandText">A SQL command string</param>
+        /// <returns>A MySqlDataReader Object</returns>
         public MySqlDataReader ExecuteCommand(MySqlCommand cmd, string CommandText)
         {
             cmd.CommandText = CommandText;
@@ -72,6 +87,10 @@ namespace HTTP5101_Cumulative_Project.Models
             return cmd.ExecuteReader();
         }
 
+        /// <summary>
+        /// Close connection on MySqlConnection
+        /// </summary>
+        /// <param name="Conn">A MySqlConnection Object</param>
         public void ClossConnection(MySqlConnection Conn)
         {
             Conn.Close();

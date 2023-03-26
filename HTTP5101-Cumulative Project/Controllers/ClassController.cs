@@ -9,6 +9,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
 {
     public class ClassController : Controller
     {
+        // Controller which allows us to access methods from ClassDataController
         private ClassDataController Controller = new ClassDataController();
 
         public ActionResult Index(string Search)

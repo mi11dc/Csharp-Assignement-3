@@ -10,6 +10,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
 {
     public class TeacherController : Controller
     {
+        // Controller which allows us to access methods from TeacherDataController
         private TeacherDataController Controller = new TeacherDataController();
         public ActionResult Index(string Search)
         {

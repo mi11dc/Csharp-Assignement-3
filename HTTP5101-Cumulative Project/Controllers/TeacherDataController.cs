@@ -14,10 +14,10 @@ namespace HTTP5101_Cumulative_Project.Controllers
         private SchoolDbContext SchoolDb = new SchoolDbContext();
 
         /// <summary>
-        /// 
+        /// Get List of Teachers
         /// </summary>
-        /// <param name="SearchString"></param>
-        /// <returns></returns>
+        /// <param name="SearchString">This parameter is using for searching in teacher's first and last name, employe number, hire date and salary</param>
+        /// <returns>List of Teachers</returns>
         [HttpGet]
         public IEnumerable<Teacher> ListTeachers(string SearchString)
         {
@@ -36,10 +36,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
-            //Create an empty list of Author Names
             List<Teacher> Teachers = new List<Teacher> { };
 
-            //Loop Through Each Row the Result Set
             while (ResultSet.Read())
             {
                 Teachers.Add(new Teacher()
@@ -53,18 +51,20 @@ namespace HTTP5101_Cumulative_Project.Controllers
                 });
             }
 
-            //Close the connection between the MySQL Database and the WebServer
             SchoolDb.ClossConnection(Conn);
 
-            //Return the final list of author names
             return Teachers;
         }
 
+        /// <summary>
+        /// Gets teacher's info from teacher id.
+        /// </summary>
+        /// <param name="id">Teacher id</param>
+        /// <returns>Selected teacher's info</returns>
         [HttpGet]
         public Teacher TeacherDetails(int id)
         {
             MySqlConnection Conn = SchoolDb.AccessDatabase1();
-            //string command = "SELECT * FROM teachers where teacherid = @id";
             string command = @"SELECT 
                                 t.teacherid, 
                                 t.teacherfname, 
@@ -84,10 +84,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
-            //Create an empty list of Author Names
             Teacher TeacherObj = new Teacher();
 
-            //Loop Through Each Row the Result Set
             while (ResultSet.Read())
             {
                 TeacherObj = new Teacher()
@@ -102,10 +100,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
                 };
             }
 
-            //Close the connection between the MySQL Database and the WebServer
             SchoolDb.ClossConnection(Conn);
 
-            //Return the final list of author names
             return TeacherObj;
         }
     }

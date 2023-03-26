@@ -14,6 +14,11 @@ namespace HTTP5101_Cumulative_Project.Controllers
         // The database context class which allows us to access our MySQL Database.
         private SchoolDbContext SchoolDb = new SchoolDbContext();
 
+        /// <summary>
+        /// Get list of Classes
+        /// </summary>
+        /// <param name="SearchString">This parameter is using for searching in class's class name and code, start date and finish date</param>
+        /// <returns>List of Classes</returns>
         [HttpGet]
         public IEnumerable<Class> ListClasses(string SearchString)
         {
@@ -31,10 +36,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
-            //Create an empty list of Author Names
             List<Class> Classes = new List<Class> { };
 
-            //Loop Through Each Row the Result Set
             while (ResultSet.Read())
             {
                 Classes.Add(new Class()
@@ -47,13 +50,16 @@ namespace HTTP5101_Cumulative_Project.Controllers
                 });
             }
 
-            //Close the connection between the MySQL Database and the WebServer
             SchoolDb.ClossConnection(Conn);
 
-            //Return the final list of author names
             return Classes;
         }
 
+        /// <summary>
+        /// Gets class's info from class id.
+        /// </summary>
+        /// <param name="id">Class id</param>
+        /// <returns>Selected class's info</returns>
         [HttpGet]
         public Class ClassDetails(int id)
         {
@@ -75,10 +81,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             MySqlDataReader ResultSet = SchoolDb.ExecuteCommand(cmd, command);
 
-            //Create an empty list of Author Names
             Class ClassObj = new Class();
 
-            //Loop Through Each Row the Result Set
             while (ResultSet.Read())
             {
                 ClassObj = new Class()
@@ -92,10 +96,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
                 };
             }
 
-            //Close the connection between the MySQL Database and the WebServer
             SchoolDb.ClossConnection(Conn);
 
-            //Return the final list of author names
             return ClassObj;
         }
     }
