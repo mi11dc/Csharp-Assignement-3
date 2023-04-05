@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace HTTP5101_Cumulative_Project.Controllers
 {
@@ -88,6 +89,45 @@ namespace HTTP5101_Cumulative_Project.Controllers
             SchoolDb.ClossConnection(Conn);
 
             return StudentObj;
+        }
+
+        [HttpDelete]
+        public void DeleteStudent(int id)
+        {
+            MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            string command = "DELETE FROM students where studentid = @id";
+
+            MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            SchoolDb.ExecuteNonQuery(cmd, command);
+
+            SchoolDb.ClossConnection(Conn);
+        }
+
+        [HttpPost]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public int AddStudent([FromBody] Student NewStudent)
+        {
+            long InsertedId = 0;
+            MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            string command = @"INSERT INTO students
+                                (studentfname, studentlname, studentnumber, enroldate)
+                                VALUES
+                                (@studentFName, @studentLName, @studentNumber, NOW())";
+
+            MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
+            cmd.Parameters.AddWithValue("@studentFName", NewStudent.StudentFName);
+            cmd.Parameters.AddWithValue("@studentLName", NewStudent.StudentLName);
+            cmd.Parameters.AddWithValue("@studentNumber", NewStudent.StudentNumber);
+            cmd.Prepare();
+
+            SchoolDb.ExecuteNonQuery(cmd, command);
+            InsertedId = cmd.LastInsertedId;
+            SchoolDb.ClossConnection(Conn);
+
+            return Int32.Parse(InsertedId.ToString());
         }
     }
 }

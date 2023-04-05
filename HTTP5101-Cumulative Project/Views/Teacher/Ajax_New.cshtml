@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Add Teacher Ajax";
+}
+
+<h2>Add Teacher Ajax</h2>
+
+<div id="containershow">
+    <nav class="my-2">
+        <a class="btn btn-secondary navlink" href="/Teacher">Back To Teachers</a>
+    </nav>
+
+    <div class="inputrow my-2">
+        <label for="TeacherFName">First Name:</label>
+        <input type="text" id="TeacherFName" name="TeacherFName" />
+    </div>
+    <div class="inputrow my-2">
+        <label for="TeacherLName">Last Name:</label>
+        <input type="text" id="TeacherLName" name="TeacherLName" />
+    </div>
+    <div class="inputrow my-2">
+        <label for="EmployeeNumber">Employee Number:</label>
+        <input type="text" id="EmployeeNumber" name="EmployeeNumber" />
+    </div>
+    <div class="inputrow my-2">
+        <label for="Salary">Salary:</label>
+        <input type="number" min="0" step="0.01" value="0.00" id="Salary" name="Salary" />
+    </div>
+
+    <button class="btn btn-primary" onclick="AddTeacher();">Add Teacher</button>
+</div>
+<script src="~/Scripts/teachers.js"></script>

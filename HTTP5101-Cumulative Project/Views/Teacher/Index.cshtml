@@ -5,6 +5,11 @@
 
 <h2>Teachers List Page</h2>
 
+<nav class="my-2">
+    <a class="btn btn-primary navlink" href="/Teacher/New">Add Teacher</a>
+    <a class="btn btn-primary navlink" href="/Teacher/Ajax_New">Add Teacher From Ajax</a>
+</nav>
+
 <div class="row">
     <div class="col-12">
         <form asp-controller="Teacher" asp-action="Index">
@@ -35,7 +40,7 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@i</td>
+                        <td>@item.TeacherId</td>
                         <td>@item.EmployeeNumber</td>
                         <td>@item.TeacherFName</td>
                         <td>@item.TeacherLName</td>
@@ -43,6 +48,7 @@
                         <td>@item.Salary</td>
                         <td>
                             @Html.ActionLink("View", "Details", new { id = @item.TeacherId }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Delete", "ConfirmDelete", new { id = @item.TeacherId }, new { @class = "btn btn-danger" })
                         </td>
                     </tr>
 

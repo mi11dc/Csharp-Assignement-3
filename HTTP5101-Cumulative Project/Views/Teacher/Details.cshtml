@@ -59,4 +59,5 @@
 </div>
 <p>
     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Delete", "ConfirmDelete", new { id = @Model.TeacherId }, new { @class = "btn btn-danger" })
 </p>

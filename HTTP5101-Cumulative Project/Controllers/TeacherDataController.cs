@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Net;
+using System.Diagnostics;
+using System.Web.Http.Cors;
 
 namespace HTTP5101_Cumulative_Project.Controllers
 {
@@ -74,7 +77,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
                                 t.salary,
                                 group_concat(' ', c.classname) as `courses` 
                             FROM teachers t
-                            JOIN classes c ON c.teacherid = t.teacherid
+                            LEFT JOIN classes c ON c.teacherid = t.teacherid
                             WHERE t.teacherid = @id
                             GROUP BY teacherid";
 
@@ -103,6 +106,46 @@ namespace HTTP5101_Cumulative_Project.Controllers
             SchoolDb.ClossConnection(Conn);
 
             return TeacherObj;
+        }
+
+        [HttpDelete]
+        public void DeleteTeacher(int id)
+        {
+            MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            string command = "DELETE FROM teachers WHERE teacherid=@id";
+
+            MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            SchoolDb.ExecuteNonQuery(cmd, command);
+
+            SchoolDb.ClossConnection(Conn);
+        }
+
+        [HttpPost]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public int AddTeacher([FromBody] Teacher NewTeacher)
+        {
+            long InsertedId = 0;
+            MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            string command = @"INSERT INTO teachers
+                                (teacherfname, teacherlname, employeenumber, hiredate, salary)
+                                VALUES
+                                (@teacherFName, @teacherLName, @employeeNumber, NOW(), @salary)";
+
+            MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
+            cmd.Parameters.AddWithValue("@teacherFName", NewTeacher.TeacherFName);
+            cmd.Parameters.AddWithValue("@teacherLName", NewTeacher.TeacherLName);
+            cmd.Parameters.AddWithValue("@employeeNumber", NewTeacher.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@salary", NewTeacher.Salary);
+            cmd.Prepare();
+
+            SchoolDb.ExecuteNonQuery(cmd, command);
+            InsertedId = cmd.LastInsertedId;
+            SchoolDb.ClossConnection(Conn);
+
+            return Int32.Parse(InsertedId.ToString());
         }
     }
 }

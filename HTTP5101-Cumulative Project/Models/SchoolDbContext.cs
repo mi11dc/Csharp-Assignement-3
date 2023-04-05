@@ -16,7 +16,7 @@ namespace HTTP5101_Cumulative_Project.Models
         private static string Database { get { return "schooldb"; } }
         private static string Server { get { return "localhost"; } }
         private static string Port { get { return "3306"; } }
-
+        
         //ConnectionString is a series of credentials used to connect to the database.
         protected static string ConnectionString
         {
@@ -85,6 +85,13 @@ namespace HTTP5101_Cumulative_Project.Models
             cmd.CommandText = CommandText;
 
             return cmd.ExecuteReader();
+        }
+
+        public int ExecuteNonQuery(MySqlCommand cmd, string CommandText)
+        {
+            cmd.CommandText = CommandText;
+
+            return cmd.ExecuteNonQuery();
         }
 
         /// <summary>
