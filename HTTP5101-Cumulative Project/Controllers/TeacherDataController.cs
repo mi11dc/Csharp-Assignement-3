@@ -109,6 +109,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
         }
 
         [HttpDelete]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
         public void DeleteTeacher(int id)
         {
             MySqlConnection Conn = SchoolDb.AccessDatabase1();

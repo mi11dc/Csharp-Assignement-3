@@ -36,7 +36,15 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             return View(TeacherDetails);
         }
-        
+
+        public ActionResult Ajax_ConfirmDelete(int id)
+        {
+            Teacher TeacherDetails = Controller.TeacherDetails(id);
+            ViewBag.Title = "Confirm Delete Page with Ajax";
+
+            return View(TeacherDetails);
+        }
+
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -54,7 +62,6 @@ namespace HTTP5101_Cumulative_Project.Controllers
         public ActionResult Ajax_New()
         {
             return View();
-
         }
 
         //POST : /Teacher/Create

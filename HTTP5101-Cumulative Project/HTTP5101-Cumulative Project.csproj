@@ -326,6 +326,7 @@
     <Content Include="Views\Student\ConfirmDelete.cshtml" />
     <Content Include="Views\Student\New.cshtml" />
     <Content Include="Views\Student\Ajax_New.cshtml" />
+    <Content Include="Views\Teacher\Ajax_ConfirmDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

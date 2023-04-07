@@ -28,5 +28,49 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             return View(ClassDetails);
         }
+
+        public ActionResult ConfirmDelete(int id)
+        {
+            Class ClassDetails = Controller.ClassDetails(id);
+            ViewBag.Title = "Confirm Delete Page";
+
+            return View(ClassDetails);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            Controller.DeleteClass(id);
+            return RedirectToAction("Index");
+        }
+
+        //GET : /Teacher/New
+        public ActionResult New()
+        {
+            return View();
+        }
+
+        //GET : /Teacher/Ajax_New
+        public ActionResult Ajax_New()
+        {
+            return View();
+        }
+
+        //POST : /Teacher/Create
+        [HttpPost]
+        public ActionResult Create(Class ClassObj)
+        {
+            if (
+                    String.IsNullOrEmpty(ClassObj.ClassCode) ||
+                    String.IsNullOrEmpty(ClassObj.ClassName) ||
+                    String.IsNullOrEmpty(ClassObj.StartDate.ToString()) ||
+                    String.IsNullOrEmpty(ClassObj.EndDate.ToString())
+               )
+                return RedirectToAction("New");
+
+            int InsertedId = Controller.AddClass(ClassObj);
+
+            return RedirectToAction(String.Concat("Details/", InsertedId));
+        }
     }
 }

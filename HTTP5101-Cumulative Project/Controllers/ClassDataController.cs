@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace HTTP5101_Cumulative_Project.Controllers
 {
@@ -99,6 +100,47 @@ namespace HTTP5101_Cumulative_Project.Controllers
             SchoolDb.ClossConnection(Conn);
 
             return ClassObj;
+        }
+
+        [HttpDelete]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public void DeleteClass(int id)
+        {
+            MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            string command = "DELETE FROM classes WHERE classid=@id";
+
+            MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            SchoolDb.ExecuteNonQuery(cmd, command);
+
+            SchoolDb.ClossConnection(Conn);
+        }
+
+        [HttpPost]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public int AddClass([FromBody] Class NewClass)
+        {
+            long InsertedId = 0;
+            MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            string command = @"INSERT INTO classes
+                                (classname, classcode, startdate, finishdate)
+                                VALUES
+                                (@classname, @classcode, @startdate, @finishdate)";
+
+            MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
+            cmd.Parameters.AddWithValue("@classname", NewClass.ClassName);
+            cmd.Parameters.AddWithValue("@classcode", NewClass.ClassCode);
+            cmd.Parameters.AddWithValue("@startdate", NewClass.StartDate);
+            cmd.Parameters.AddWithValue("@finishdate", NewClass.EndDate);
+            cmd.Prepare();
+
+            SchoolDb.ExecuteNonQuery(cmd, command);
+            InsertedId = cmd.LastInsertedId;
+            SchoolDb.ClossConnection(Conn);
+
+            return Int32.Parse(InsertedId.ToString());
         }
     }
 }
