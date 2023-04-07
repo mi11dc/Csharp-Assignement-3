@@ -1,0 +1,16 @@
+﻿@model  HTTP5101_Cumulative_Project.Models.Teacher
+@{
+    ViewBag.Title = "Ajax_ConfirmDelete";
+}
+
+<div id="containershow">
+    <nav class="my-2">
+        <a class=" btn btn-secondary navlink" href="/Teacher/Details/@Model.TeacherId">Cancel</a>
+    </nav>
+    <h2>Are you sure you want to delete @Model.TeacherFName @Model.TeacherLName?</h2>
+    <p>This action cannot be undone.</p>
+    <button onclick="DeleteTeacher(@Model.TeacherId);" class="btn btn-danger delbutton">
+        Confirm Delete
+    </button>
+</div>
+<script src="~/Scripts/teachers.js"></script>
