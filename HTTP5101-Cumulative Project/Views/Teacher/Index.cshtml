@@ -48,6 +48,8 @@
                         <td>@item.Salary</td>
                         <td>
                             @Html.ActionLink("View", "Details", new { id = @item.TeacherId }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Edit", "Update", new { id = @item.TeacherId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Edit with AJAX", "Ajax_Update", new { id = @item.TeacherId }, new { @class = "btn btn-warning" })
                             @Html.ActionLink("Delete", "ConfirmDelete", new { id = @item.TeacherId }, new { @class = "btn btn-danger" })
                         </td>
                     </tr>
@@ -66,5 +68,8 @@
     thead, tbody, tfoot, tr, td, th {
         border-width: 1px;
         padding: 0.25em;
+    }
+    .btn-warning {
+        color: white
     }
 </style>

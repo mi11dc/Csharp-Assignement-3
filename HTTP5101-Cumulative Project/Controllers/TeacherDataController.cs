@@ -148,5 +148,30 @@ namespace HTTP5101_Cumulative_Project.Controllers
 
             return Int32.Parse(InsertedId.ToString());
         }
+
+        [HttpPut]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public int UpdateTeacher(int id, [FromBody] Teacher TeacherObj)
+        {
+            MySqlConnection Conn = SchoolDb.AccessDatabase1();
+            string command = @"UPDATE teachers
+                               SET
+                                teacherfname = @teacherFName,
+                                teacherlname = @teacherLName,
+                                employeenumber = @employeeNumber,
+                                salary = @salary";
+
+            MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
+            cmd.Parameters.AddWithValue("@teacherFName", TeacherObj.TeacherFName);
+            cmd.Parameters.AddWithValue("@teacherLName", TeacherObj.TeacherLName);
+            cmd.Parameters.AddWithValue("@employeeNumber", TeacherObj.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@salary", TeacherObj.Salary);
+            cmd.Prepare();
+
+            SchoolDb.ExecuteNonQuery(cmd, command);
+            SchoolDb.ClossConnection(Conn);
+
+            return id;
+        }
     }
 }

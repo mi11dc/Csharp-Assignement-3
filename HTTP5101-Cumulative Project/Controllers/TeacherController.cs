@@ -12,6 +12,8 @@ namespace HTTP5101_Cumulative_Project.Controllers
     {
         // Controller which allows us to access methods from TeacherDataController
         private TeacherDataController Controller = new TeacherDataController();
+
+        // Page: GET index
         public ActionResult Index(string Search)
         {
             IEnumerable<Teacher> TeachersList = Controller.ListTeachers(Search);
@@ -21,6 +23,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
             return View(TeachersList);
         }
 
+        // Page: GET Details/{id}
         public ActionResult Details(int id)
         {
             Teacher TeacherDetails = Controller.TeacherDetails(id);
@@ -29,6 +32,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
             return View(TeacherDetails);
         }
 
+        // Page: GET ConfirmDelete/{id}
         public ActionResult ConfirmDelete(int id)
         {
             Teacher TeacherDetails = Controller.TeacherDetails(id);
@@ -37,6 +41,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
             return View(TeacherDetails);
         }
 
+        // Page: GET Ajax_ConfirmDelete
         public ActionResult Ajax_ConfirmDelete(int id)
         {
             Teacher TeacherDetails = Controller.TeacherDetails(id);
@@ -45,6 +50,7 @@ namespace HTTP5101_Cumulative_Project.Controllers
             return View(TeacherDetails);
         }
 
+        //  Post Delete/{id}
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -52,19 +58,19 @@ namespace HTTP5101_Cumulative_Project.Controllers
             return RedirectToAction("Index");
         }
 
-        //GET : /Teacher/New
+        //Page:  GET /Teacher/New
         public ActionResult New()
         {
             return View();
         }
 
-        //GET : /Teacher/Ajax_New
+        //Page: GET /Teacher/Ajax_New
         public ActionResult Ajax_New()
         {
             return View();
         }
 
-        //POST : /Teacher/Create
+        //POST /Teacher/Create
         [HttpPost]
         public ActionResult Create(Teacher TeacherObj)
         {
@@ -79,6 +85,37 @@ namespace HTTP5101_Cumulative_Project.Controllers
             int InsertedId = Controller.AddTeacher(TeacherObj);
 
             return RedirectToAction(String.Concat("Details/", InsertedId));
+        }
+
+        //Page:  GET /Teacher/Update/{id}
+        public ActionResult Update(int id)
+        {
+            Teacher TeacherDetails = Controller.TeacherDetails(id);
+            return View(TeacherDetails);
+        }
+
+        //Page: GET /Teacher/Ajax_Update/{id}
+        public ActionResult Ajax_Update(int id)
+        {
+            Teacher TeacherDetails = Controller.TeacherDetails(id);
+            return View(TeacherDetails);
+        }
+
+        //POST /Teacher/Update/{id}
+        [HttpPost]
+        public ActionResult Update(int id, Teacher TeacherObj)
+        {
+            if (
+                    String.IsNullOrEmpty(TeacherObj.TeacherFName) ||
+                    String.IsNullOrEmpty(TeacherObj.TeacherLName) ||
+                    String.IsNullOrEmpty(TeacherObj.EmployeeNumber) ||
+                    String.IsNullOrEmpty(TeacherObj.Salary.ToString())
+               )
+                return RedirectToAction(String.Concat("Update", id));
+
+            int UpdatedTeacherId = Controller.UpdateTeacher(id, TeacherObj);
+
+            return RedirectToAction(String.Concat("Details/", UpdatedTeacherId));
         }
     }
 }
