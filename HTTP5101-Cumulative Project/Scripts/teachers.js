@@ -1,6 +1,9 @@
 ﻿const OnlyDomainURL = "https://localhost:44384/";
 const APIURL = "https://localhost:44384/api/TeacherData/";
 
+/**
+ * Call API for Add teacher */
+
 function AddTeacher() {
 
 	//POST : https://localhost:44384/api/TeacherData/AddTeacher
@@ -46,6 +49,9 @@ function AddTeacher() {
 
 }
 
+/**
+ * Call API for Delete teacher */
+
 function DeleteTeacher(TeacherId) {
 	debugger;
 	//DELETE : https://localhost:44384/api/TeacherData/DeleteTeacher/{TeacherId}
@@ -55,7 +61,7 @@ function DeleteTeacher(TeacherId) {
 
 	var rq = new XMLHttpRequest();
 
-	rq.open("DELETE", URL, true);
+	rq.open("POST", URL, true);
 	rq.setRequestHeader("Content-Type", "application/json");
 	rq.onreadystatechange = function () {
 		//ready state should be 4 AND status should be 200
@@ -72,12 +78,14 @@ function DeleteTeacher(TeacherId) {
 	rq.send();
 }
 
+/**
+ * Call API for Update teacher */
 function UpdateTeacher(TeacherId) {
 	debugger;
 	//PUT : https://localhost:44384/api/TeacherData/UpdateTeacher/{TeacherId}
 	
 	var URL = APIURL + "UpdateTeacher/" + TeacherId;
-	var OutputURL = OnlyDomainURL + "Teacher/Details/";
+	var OutputURL = OnlyDomainURL + "Teacher/Details/" + TeacherId;
 
 	var rq = new XMLHttpRequest();
 
@@ -99,20 +107,21 @@ function UpdateTeacher(TeacherId) {
 	};
 
 
-	rq.open("PUT", URL, true);
+	rq.open("POST", URL, true);
 	rq.setRequestHeader("Content-Type", "application/json");
 	rq.onreadystatechange = function () {
-		//ready state should be 4 AND status should be 200
-		if (rq.readyState == 4 && rq.status == 200) {
+		//ready state should be 4 AND status should be starts with 2 like 2XX for 200, 204
+		if (rq.readyState == 4 && (rq.status.toString().startsWith('2'))) {
 			//request is successful and the request is finished
 
 			//nothing to render, the method returns nothing.
 
-			window.location.href = OutputURL + rq.responseText;
+			window.location.href = OutputURL;
 		}
 
 	}
 	//POST information sent through the .send() method
+	console.log(JSON.stringify(TeacherData));
 	rq.send(JSON.stringify(TeacherData));
 
 }

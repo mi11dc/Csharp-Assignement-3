@@ -108,7 +108,12 @@ namespace HTTP5101_Cumulative_Project.Controllers
             return TeacherObj;
         }
 
-        [HttpDelete]
+
+        /// <summary>
+        /// Delete selected teacher via teacher id
+        /// </summary>
+        /// <param name="id">Teacher id</param>
+        [HttpPost]
         [EnableCors(origins: "*", methods: "*", headers: "*")]
         public void DeleteTeacher(int id)
         {
@@ -124,6 +129,11 @@ namespace HTTP5101_Cumulative_Project.Controllers
             SchoolDb.ClossConnection(Conn);
         }
 
+        /// <summary>
+        /// Add teacher with all info in newteacher object
+        /// </summary>
+        /// <param name="NewTeacher">teachers info</param>
+        /// <returns>Inserted teacher Id</returns>
         [HttpPost]
         [EnableCors(origins: "*", methods: "*", headers: "*")]
         public int AddTeacher([FromBody] Teacher NewTeacher)
@@ -149,7 +159,13 @@ namespace HTTP5101_Cumulative_Project.Controllers
             return Int32.Parse(InsertedId.ToString());
         }
 
-        [HttpPut]
+        /// <summary>
+        /// Update teacher with new info from teacherobj via teacher id
+        /// </summary>
+        /// <param name="id">teacher id</param>
+        /// <param name="TeacherObj">teacher info</param>
+        /// <returns>updated teacher id</returns>
+        [HttpPost]
         [EnableCors(origins: "*", methods: "*", headers: "*")]
         public int UpdateTeacher(int id, [FromBody] Teacher TeacherObj)
         {
@@ -159,13 +175,15 @@ namespace HTTP5101_Cumulative_Project.Controllers
                                 teacherfname = @teacherFName,
                                 teacherlname = @teacherLName,
                                 employeenumber = @employeeNumber,
-                                salary = @salary";
+                                salary = @salary
+                               WHERE teacherId = @teacherId";
 
             MySqlCommand cmd = SchoolDb.CreateCommand(Conn);
             cmd.Parameters.AddWithValue("@teacherFName", TeacherObj.TeacherFName);
             cmd.Parameters.AddWithValue("@teacherLName", TeacherObj.TeacherLName);
             cmd.Parameters.AddWithValue("@employeeNumber", TeacherObj.EmployeeNumber);
             cmd.Parameters.AddWithValue("@salary", TeacherObj.Salary);
+            cmd.Parameters.AddWithValue("@teacherId", id);
             cmd.Prepare();
 
             SchoolDb.ExecuteNonQuery(cmd, command);
